@@ -1,0 +1,1778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #0ef;
+            --dark-bg: #1f242d;
+            --secondary-bg: #323946;
+            --yellow-bg: #ffd700;
+            --light-bg: #f4f4f4;
+            --light-text: #333;
+            --light-secondary-bg: #e0e0e0;
+        }
+        
+        body {
+            background-color: var(--dark-bg);
+            color: white;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body.light-mode {
+            background-color: var(--light-bg);
+            color: var(--light-text);
+        }
+        
+        .bg-secondary-dark {
+            background-color: var(--secondary-bg);
+        }
+
+        body.light-mode .bg-secondary-dark {
+            background-color: var(--light-secondary-bg);
+        }
+
+        .text-primary-custom {
+            color: var(--primary-color) !important;
+        }
+        
+        .btn-primary-custom {
+            background-color: var(--primary-color);
+            color: var(--secondary-bg);
+            border: none;
+        }
+
+        .btn-primary-custom:hover {
+            opacity: 0.9;
+            color: var(--secondary-bg);
+        }
+
+        .navbar-nav .nav-link {
+            transition: color 0.3s ease;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: #f0ad4e !important;
+        }
+
+        .dropdown-menu .dropdown-item:hover {
+            background-color: #343a40;
+            color: #f0ad4e;
+        }
+
+        .navbar-brand {
+            font-size: 1.9rem;
+            color: #ffffff;
+            text-transform: uppercase;
+            transition: color 0.3s ease;
+        }
+
+        .navbar-brand span {
+            color: var(--primary-color);
+        }
+
+        .navbar-brand:hover {
+            color: var(--primary-color);
+        }
+
+        .navbar-dark .navbar-nav .nav-link {
+            color: #ffffff;
+            font-size: 1.1rem;
+            padding: 0.5rem 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .navbar-dark .navbar-nav .nav-link:hover {
+            color: var(--yellow-bg);
+            font-weight: bold;
+        }
+
+        body.light-mode .navbar-dark .navbar-nav .nav-link {
+            color: var(--light-text);
+        }
+
+        .navbar-dark .navbar-nav .nav-link:hover {
+            color: var(--yellow-bg);
+            font-weight: bold;
+        }
+
+        body.light-mode .card {
+            background-color: white !important;
+            color: var(--light-text) !important;
+        }
+
+        .mode-toggle {
+            cursor: pointer;
+            font-size: 1.2rem;
+            margin-left: 15px;
+            transition: color 0.3s ease;
+        }
+
+        .mode-toggle:hover {
+            color: var(--primary-color);
+        }
+
+        /* Rest of the existing CSS remains the same... */
+        @keyframes floatImage {
+            0% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(1.5rem);
+            }
+            100% {
+                transform: translateY(0);
+            }
+        }
+
+        #home {
+            display: flex;
+            justify-content: center;
+        }
+
+        #home h3 {
+            color: #ffffff;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        body.light-mode #home h3 {
+            color: var(--light-text);
+        }
+
+        #home h1 {
+            color: #ffffff;
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+            letter-spacing: 1.5px;
+        }
+
+        body.light-mode #home h1 {
+            color: var(--light-text);
+        }
+
+        #home p.lead {
+            display: flex;
+            color: #ffffff;
+            font-size: 1.3rem;
+            text-align: justify;
+            letter-spacing: 1.5px;
+        }
+
+        body.light-mode #home p.lead {
+            color: var(--light-text);
+        }
+
+        #about p.lead {
+            display: flex;
+            color: #ffffff;
+            font-size: 1.3rem;
+            text-align: justify;
+            letter-spacing: 1.5px;
+        }
+
+        .projects-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 1rem;
+        }
+
+        .projects-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: all 0.3s;
+        }
+        .projects-overlay p {
+            margin-top: 0.5rem;
+            font-size: 1rem;
+            max-width: 85%;
+            text-align: justify;
+        }
+        .projects-overlay h4 {
+            max-width: 90%;
+            font-size: 2rem;
+        }
+        .projects-item:hover .projects-overlay {
+            opacity: 1;
+        }
+
+        /* Media Queries */
+        @media (max-width: 768px) {
+            #home h1, #home h3, #about h1, #about h3 {
+                font-size: 1.5rem;
+            }
+
+            #home p.lead, #about p.lead {
+                font-size: 1rem;
+            }
+
+            .navbar-brand {
+                font-size: 2rem;
+            }
+
+            .skills-card {
+                padding: 1rem;
+            }
+
+            .social-icons-container {
+                justify-content: center;
+            }
+
+            #skills p {
+                font-size: 1rem;
+                text-align: center;
+            }
+
+            #projects h4 {
+                font-size: 1.1rem;
+                text-align: center;
+            }
+            #projects p {
+                font-size: 0.7rem;
+            }
+            #functions h3, #projects h3 {
+                font-size: 1.1rem;
+            }
+        }
+
+        .section-padding {
+            padding: 100px 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top shadow">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="">my<span> Profile</span></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center" href="#home">
+                            <i class="bi bi-house me-2"></i>Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center" href="#about">
+                            <i class="bi bi-info-circle me-2"></i>About
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center" href="#skills">
+                            <i class="bi bi-briefcase me-2"></i>Skills
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center" href="#education">
+                            <i class="bi bi-book me-2"></i>Education
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center" href="#experience">
+                            <i class="bi bi-briefcase me-2"></i>Experience
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center" href="#projects">
+                            <i class="bi bi-kanban me-2"></i>Projects
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center" href="#contact">
+                            <i class="bi bi-envelope me-2"></i>Contact
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-three-dots me-2"></i>More
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="#skills">Skills</a></li>
+                            <li><a class="dropdown-item" href="#hobbies">Hobbies</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#achievements">Achievements</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="mode-toggle nav-link d-flex align-items-center" id="modeToggle" title="Toggle Dark/Light Mode">
+                            <i class="bi bi-moon-fill me-2"></i>Mode
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Rest of the HTML remains the same... -->
+    <!-- Home Section -->
+    <section id="home" class="section-padding">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 text-center text-lg-start">
+                    <h3 class="sr-left">Welcome to My<span class="text-primary-custom"> Profile</span></h3>
+                    <h1 class="display-4 fw-bold mb-4 sr-left">Gusthi Pangestu</h1>
+                    <p class="lead mb-3 sr-left">
+                        I am Gusthi Pangestu, a student at Politeknik Negeri Elektronika Negeri Surabaya, majoring in Informatics Engineering. 
+                        I have a passion for programming and graphic design, with experience in website performance optimization and content creation.
+                    </p>
+                    <div class="mb-3 sr-left social-icons-container">
+                        <a href="#" class="social-icon mx-2"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="social-icon mx-2"><i class="bi bi-twitter"></i></a>
+                        <a href="#" class="social-icon mx-2"><i class="bi bi-instagram"></i></a>
+                        <a href="#" class="social-icon mx-2"><i class="bi bi-linkedin"></i></a>
+                    </div>
+                    <div class="mb-4 sr-left">
+                        <a href="#contact" class="btn btn-primary-custom btn-lg me-3 btn-animated">Hire Me</a>
+                        <a href="CV _Gusthi Pangestu.docx" class="btn btn-outline-primary-custom btn-lg btn-animated" download>Download CV</a>
+                    </div>
+                </div>
+                <div class="col-lg-6 text-center">
+                    <div class="image-wrapper sr-zoom position-relative">
+                        <img src="Gusthi Pangestu (1).JPG" class="img-fluid rounded shadow-lg border border-primary-custom" alt="SOC Image" style="max-width: 55%; transition: transform 0.3s ease;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <style>
+        .social-icons-container {
+            display: flex;
+        }
+    
+        .social-icon {
+            font-size: 2.0rem;
+            color: var(--primary-color);
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+    
+        .social-icon:hover {
+            transform: scale(1.2) rotate(360deg);
+            color: var(--yellow-bg);
+        }
+    
+        .social-icon i {
+            transition: color 0.3s ease;
+        }
+    </style>
+    
+    
+
+    <!-- About Section -->
+    <section id="about" class="bg-secondary-dark section-padding">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 text-center">
+                    <div class="image-wrapper sr-fade position-relative mb-3">
+                        <img src="Gusthi Pangestu (2).JPG" class="img-fluid rounded shadow-lg border border-primary-custom" alt="About SOC" style="max-width: 55%; transition: transform 0.3s ease;">
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <h1 class="display-4 fw-bold mb-3 sr-top">About<span class="text-primary-custom"> Me</span></h1>
+                    <h3 class="mb-3 sr-top">I have experience in <span class="text-primary-custom" id="typed-text"></span></h3>
+                    <p class="lead sr-top">
+                        I am expertise in designing visuals for events, social media, and marketing, ensuring alignment with brand guidelines. 
+                        As an active student, I am committed to contributing throughout one term of service, with strong communication skills, effective time management, and the ability to work both independently and in a team. 
+                        I am disciplined, responsible, and responsive in daily communication.
+                    </p>
+                    <div class="mb-4 sr-top">
+                        <a href="#skills" class="btn btn-outline-primary-custom btn-lg me-3 btn-animated"><i class="bi bi-gear me-2"></i>Skills</a>
+                        <a href="#education" class="btn btn-outline-primary-custom btn-lg me-3 btn-animated"><i class="bi bi-book me-2"></i>Education</a>
+                        <a href="#experience" class="btn btn-outline-primary-custom btn-lg btn-animated"><i class="bi bi-briefcase me-2"></i>Experience</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Skills Section -->
+    <section id="skills" class="section-padding">
+        <div class="container">
+            <h2 class="text-center display-4 mb-4">My <span class="text-primary-custom">Skills</span></h2>
+            <h3 class="text-center mb-4">Here's <span class="text-primary-custom">My Skills</span></h3>
+            
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <div class="card h-100 bg-secondary-dark text-white functions-card-skills" data-index="0" data-reveal="fade-up">
+                        <div class="card-body text-center p-5">
+                            <div class="skill-percentage mb-4">
+                                <div class="circular-progress" data-progress="90">
+                                    <svg viewBox="0 0 36 36">
+                                        <path class="circle-bg"
+                                            d="M18 2.0845
+                                            a 15.9155 15.9155 0 0 1 0 31.831
+                                            a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                        <path class="circle"
+                                            stroke-dasharray="90, 100"
+                                            d="M18 2.0845
+                                            a 15.9155 15.9155 0 0 1 0 31.831
+                                            a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                    </svg>
+                                    <span>90%</span>
+                                </div>
+                            </div>
+                            <h3 class="card-title text-primary-custom">Graphic Design</h3>
+                            <p class="card-text">I have a passion for Graphic Design, with experience in Adobe Photoshop, Illustrator, and Canva.</p>
+                            <div class="mb-2">
+                                <p class="card-text text-lg-start mb-2">Adobe Photoshop</p>
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar"><span style="width: 90%;"></span></div>
+                                </div>
+                            </div>
+                            <div class="mb-2">
+                                <p class="card-text text-lg-start mb-2">Canva</p>
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar"><span style="width: 90%;"></span></div>
+                                </div>
+                            </div>
+                            <div class="mb-2">
+                                <p class="card-text text-lg-start mb-2">Creativity</p>
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar"><span style="width: 90%;"></span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card h-100 bg-secondary-dark text-white functions-card-skills" data-index="0" data-reveal="fade-right">
+                        <div class="card-body text-center p-5">
+                            <div class="skill-percentage mb-4">
+                                <div class="circular-progress" data-progress="90">
+                                    <svg viewBox="0 0 36 36">
+                                        <path class="circle-bg"
+                                            d="M18 2.0845
+                                            a 15.9155 15.9155 0 0 1 0 31.831
+                                            a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                        <path class="circle"
+                                            stroke-dasharray="90, 100"
+                                            d="M18 2.0845
+                                            a 15.9155 15.9155 0 0 1 0 31.831
+                                            a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                    </svg>
+                                    <span>90%</span>
+                                </div>
+                            </div>
+                            <h3 class="card-title text-primary-custom">Programming</h3>
+                            <p class="card-text">I have a passion for Programming, with experience in HTML, CSS, JavaScript, Python, and Java.</p>
+                            <div class="mb-2">
+                                <p class="card-text text-lg-start mb-2">HTML, CSS, and JavaScript</p>
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar"><span style="width: 90%;"></span></div>
+                                </div>
+                            </div>
+                            <div class="mb-2">
+                                <p class="card-text text-lg-start mb-2">Python</p>
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar"><span style="width: 90%;"></span></div>
+                                </div>
+                            </div>
+                            <div class="mb-2">
+                                <p class="card-text text-lg-start mb-2">C</p>
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar"><span style="width: 90%;"></span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card h-100 bg-secondary-dark text-white functions-card-skills" data-index="0" data-reveal="fade-left">
+                        <div class="card-body text-center p-5">
+                            <div class="skill-percentage mb-4">
+                                <div class="circular-progress" data-progress="90">
+                                    <svg viewBox="0 0 36 36">
+                                        <path class="circle-bg"
+                                            d="M18 2.0845
+                                            a 15.9155 15.9155 0 0 1 0 31.831
+                                            a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                        <path class="circle"
+                                            stroke-dasharray="90, 100"
+                                            d="M18 2.0845
+                                            a 15.9155 15.9155 0 0 1 0 31.831
+                                            a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                    </svg>
+                                    <span>90%</span>
+                                </div>
+                            </div>
+                            <h3 class="card-title text-primary-custom">Website Optimization</h3>
+                            <p class="card-text">I have a passion for Website Optimization, with experience in various optimization techniques.</p>
+                            <div class="mb-2">
+                                <p class="card-text text-lg-start mb-2">WordPress</p>
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar"><span style="width: 90%;"></span></div>
+                                </div>
+                            </div>
+                            <div class="mb-2">
+                                <p class="card-text text-lg-start mb-2">Python</p>
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar"><span style="width: 90%;"></span></div>
+                                </div>
+                            </div>
+                            <div class="mb-2">
+                                <p class="card-text text-lg-start mb-2">Java</p>
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar"><span style="width: 90%;"></span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <style>
+        .functions-card-skills {
+            transition: all 0.3s;
+            border: 2px solid transparent;
+            border-radius: 8px;
+            overflow: hidden;
+            background: var(--secondary-bg);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            color: #fff;
+        }
+
+        .functions-card-skills:hover {
+            border-color: var(--yellow-bg);
+            transform: translateY(-10px);
+            box-shadow: 0 8px 16px rgba(255, 238, 0, 0.6), 0 0 15px rgba(255, 234, 0, 0.6);
+        }
+
+        .circular-progress {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+        }
+
+        .circular-progress svg {
+            width: 100%;
+            height: 100%;
+            transform: rotate(-90deg);
+        }
+
+        .circle-bg {
+            fill: none;
+            stroke: var(--dark-bg);
+            stroke-width: 3.8;
+        }
+
+        .circle {
+            fill: none;
+            stroke: var(--yellow-bg);
+            stroke-width: 3.8;
+            stroke-linecap: round;
+            stroke-dasharray: 100, 0;
+            stroke-dashoffset: 90;
+            animation: none;
+        }
+
+        .circular-progress span {
+            position: absolute;
+            font-size: 1.5em;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        @keyframes fill-progress {
+            0% {
+                stroke-dasharray: 0, 100;
+            }
+            100% {
+                stroke-dasharray: 90, 100;
+            }
+        }
+
+        .progress-bar-container {
+            width: 100%; 
+            height: 10px; /* Tinggi progress bar */
+            background-color: var(--dark-bg); /* Warna progress bar */
+            border-radius: 5px; /* Membuat ujung progress bar melengkung */
+            animation: none;
+        }
+
+        .progress-bar {
+            width: 0%; /* Mulai dari 0% untuk animasi */
+            height: 10px; /* Tinggi progress bar */
+            background-color: #ffd700; /* Warna progress bar */
+            border-radius: 5px; /* Membuat ujung progress bar melengkung */
+            animation: none;
+        }
+
+        /* Animasi Fill Bar */
+        @keyframes fill-bar {
+            0% {
+                width: 0%; /* Awal pengisian */
+            }
+            100% {
+                width: 90%; /* Persentase pengisian akhir */
+            }
+        }
+
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const circularProgressBars = document.querySelectorAll('.circular-progress');
+
+            const observer = new IntersectionObserver(
+                (entries) => {
+                    entries.forEach((entry) => {
+                        if (entry.isIntersecting) {
+                            const circle = entry.target.querySelector('.circle');
+                            const progress = entry.target.dataset.progress;
+                            circle.style.animation = `fill-progress 2s ease-in-out forwards`;
+                            circle.style.strokeDasharray = `${progress}, 50`;
+
+                            setTimeout(() => {
+                                circle.style.animation = ''; // Reset animation for re-triggering
+                            }, 1000);
+                        }
+                    });
+                },
+                { threshold: 0.5 } // Trigger when 50% of the element is visible
+            );
+
+            circularProgressBars.forEach((progressBar) => {
+                observer.observe(progressBar);
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const progressBars = document.querySelectorAll('.progress-bar');
+
+            const observer = new IntersectionObserver(
+                (entries) => {
+                    entries.forEach((entry) => {
+                        const progressBar = entry.target;
+
+                        if (entry.isIntersecting) {
+                            // Terapkan animasi hanya jika belum diterapkan
+                            if (!progressBar.classList.contains('animated')) {
+                                progressBar.style.animation = `fill-bar 2s ease-in-out forwards`;
+                                progressBar.classList.add('animated'); // Tandai sebagai telah dianimasikan
+                            }
+                        } else {
+                            // Reset hanya jika elemen keluar dari viewport
+                            progressBar.classList.remove('animated');
+                            progressBar.style.animation = 'none';
+                        }
+                    });
+                },
+                { threshold: 0.5 } // Animasi dimulai ketika 50% elemen terlihat
+            );
+
+            progressBars.forEach((bar) => {
+                observer.observe(bar);
+            });
+        });
+    </script>
+
+    <!-- Education Section -->
+    <section id="education" class="bg-secondary-dark section-padding">
+        <div class="container">
+            <h2 class="text-center display-4 mb-4">My <span class="text-primary-custom">Education</span></h2>
+            <h3 class="text-center mb-4">Here's <span class="text-primary-custom">My Skills</span></h3>
+            
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <div class="card h-100 bg-dark text-white functions-card-education" data-index="0">
+                        <div class="card-body text-center p-5">
+                            <!-- Small Circular Photo -->
+                            <div class="photo-frame mb-4">
+                                <img src="logo (1).png" alt="Photo" class="photo">
+                            </div>
+                            <h3 class="card-title text-primary-custom">SMK Telkom Sidoarjo</h3>
+                            <p class="card-text mb-2">2021 - 2024</p>
+                            <p class="card-text">I am a graduate student at SMK Telkom Sidoarjo, majoring in Telecommunication Access Network Engineering. I specialize in installation Fiber optic cable connection</p>
+                            <div class="d-flex justify-content-center mt-4">
+                                <div class="indicator-container">
+                                    <div class="indicator-bar active" data-index="0"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card h-100 bg-dark text-white functions-card-education" data-index="1">
+                        <div class="card-body text-center p-5">
+                            <!-- Small Circular Photo -->
+                            <div class="photo-frame mb-4">
+                                <img src="logo (1).png" alt="Photo" class="photo">
+                            </div>
+                            <h3 class="card-title text-primary-custom">Digital Talent Program</h3>
+                            <p class="card-text mb-2">With SMK Telkom Sidoarjo</p>
+                            <p class="card-text">I am majoring in Hustler Class. I have experience in creating SEO analysis for new products and creating content using Canva and Photoshop.</p>
+                            <div class="d-flex justify-content-center mt-4">
+                                <div class="indicator-container">
+                                    <div class="indicator-bar" data-index="1"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card h-100 bg-dark text-white functions-card-education" data-index="2">
+                        <div class="card-body text-center p-5">
+                            <!-- Small Circular Photo -->
+                            <div class="photo-frame mb-4">
+                                <img src="Logo_PENS.png" alt="Photo" class="photo">
+                            </div>
+                            <h3 class="card-title text-primary-custom">Politeknik Negeri Elektronika Surabaya</h3>
+                            <p class="card-text mb-2">2024 - Ongoing</p>
+                            <p class="card-text">I am a student at Politeknik Negeri Elektronika Negeri Surabaya, majoring in Informatics Engineering.</p>
+                            <div class="d-flex justify-content-center mt-4">
+                                <div class="indicator-container">
+                                    <div class="indicator-bar" data-index="2"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+        
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Existing ScrollReveal initialization
+            const sr = ScrollReveal({ 
+                reset: true,
+                duration: 1000,
+                scale: 1,
+                distance: '50px',
+                easing: 'ease-in-out',
+                interval: 200
+            });
+        
+            sr.reveal('.functions-card-education', {
+                origin: 'bottom',
+                rotate: { x: 0, y: 80, z: 0 }
+            });
+        
+            sr.reveal('.functions-card-education:nth-child(odd)', {
+                origin: 'left',
+                rotate: { x: 0, y: 80, z: 0 }
+            });
+        
+            sr.reveal('.functions-card-education:nth-child(even)', {
+                origin: 'right',
+                rotate: { x: 0, y: 80, z: 0 }
+            });
+        
+            // Custom Bar Indicator functionality
+            const bars = document.querySelectorAll('.indicator-bar');
+            const cards = document.querySelectorAll('.functions-card-education');
+            
+            bars.forEach(bar => {
+                bar.addEventListener('click', function() {
+                    // Remove active class from all bars
+                    bars.forEach(b => b.classList.remove('active'));
+                    
+                    // Add active class to clicked bar
+                    this.classList.add('active');
+                    
+                    // Scroll to corresponding card
+                    const index = this.getAttribute('data-index');
+                    cards[index].scrollIntoView({ 
+                        behavior: 'smooth',
+                        block: 'center'
+                    });
+                });
+            });
+        
+            // Add event listeners to cards
+            cards.forEach(card => {
+                card.addEventListener('click', function() {
+                    // Remove active class from all bars
+                    bars.forEach(b => b.classList.remove('active'));
+        
+                    // Add active class to corresponding bar
+                    const index = this.getAttribute('data-index');
+                    bars[index].classList.add('active');
+                    
+                    // Add animation class to the card
+                    this.classList.add('clicked');
+                    // Remove the animation class after animation ends
+                    setTimeout(() => this.classList.remove('clicked'), 500);
+                });
+            });
+        
+            // Set initial active bar
+            bars[0].classList.add('active');
+        
+            console.log('ScrollReveal is initialized');
+        });
+    </script>
+        
+    <style>
+        .indicator-container {
+            display: flex;
+            gap: 15px;
+            border-radius: 10%;
+            padding: 10px;
+        }
+
+        .indicator-bar {
+            width: 110px;
+            height: 8px;
+            background-color: #333;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease, border-radius 0.3s ease;
+            border-radius: 4px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .indicator-bar::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 200%;
+            height: 200%;
+            border-radius: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background-color: rgba(0, 255, 255, 0.5);
+            transition: transform 0.3s ease;
+        }
+
+        .indicator-bar:hover::before,
+        .indicator-bar.active::before {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .indicator-bar.active {
+            background-color: #00ffff;
+            transform: scale(1.1);
+            box-shadow: 0 4px 8px rgba(0, 255, 255, 0.6), 0 0 15px rgba(0, 255, 255, 0.6);
+            border-radius: 8px;
+        }
+
+        .indicator-bar:hover {
+            background-color: #00ffff;
+            opacity: 0.9;
+            box-shadow: 0 4px 8px rgba(0, 255, 255, 0.4), 0 0 10px rgba(0, 255, 255, 0.4);
+        }
+
+        .indicator-bar::after {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            background: rgba(0, 255, 255, 0.5);
+            border-radius: 50%;
+            animation: pulse 1.5s infinite ease-in-out;
+            opacity: 0;
+        }
+
+        .indicator-bar.active::after {
+            opacity: 1;
+        }
+
+
+        .functions-card-education {
+            transition: all 0.3s;
+            border: 2px solid transparent;
+            border-radius: 8px;
+            overflow: hidden;
+            background: var(--dark-bg);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            color: #fff;
+        }
+
+        .functions-card-education:hover {
+            border-color: var(--yellow-bg);
+            transform: translateY(-10px);
+            box-shadow: 0 8px 16px rgba(255, 238, 0, 0.6), 0 0 15px rgba(255, 234, 0, 0.6);
+        }
+
+        .photo-frame.clicked {
+            animation: frame-click 0.5s ease-in-out forwards;
+        }
+
+        @keyframes frame-click {
+            0% {
+                transform: scale(1);
+            }
+            100% {
+                transform: scale(1.1);
+            }
+        }
+
+        .photo-frame {
+            background-color: var(--light-bg);
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            margin: 0 auto; /* Center the photo frame */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 2px solid #00ffff;
+        }
+
+        .photo-frame:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 16px rgba(0, 255, 255, 0.6), 0 0 15px rgba(0, 255, 255, 0.6);
+        }
+
+        .photo {
+            width: auto;
+            height: 60%;
+        }
+    </style>   
+
+    <!-- Experience Section -->
+    <section id="experience" class="section-padding">
+        <div class="container">
+            <h2 class="text-center display-4 mb-4">My <span class="text-primary-custom">Experience</span></h2>
+            <h3 class="text-center mb-4">Here's <span class="text-primary-custom">My Experience</span></h3>
+            
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <div class="card h-100 bg-secondary-dark text-white functions-card-experience" data-index="0">
+                        <div class="card-body text-center p-5">
+                            <!-- Small Circular Photo -->
+                            <div class="photo-frame mb-4">
+                                <img src="POG.jpeg" alt="Photo" class="photo">
+                            </div>
+                            <h3 class="card-title text-primary-custom">Internship</h3>
+                            <p class="card-text mb-2">With Performa Optima Group in 2023</p>
+                            <p class="card-text">Focused on designing promotional materials, developing content strategies, collaborating with PR and R&D, and managing design assets.</p>
+                            <div class="mb-4">
+                                <a href="CV _Gusthi Pangestu.docx" class="btn btn-outline-primary-custom btn-lg btn-animated">See More</a>
+                            </div>
+                            <div class="d-flex justify-content-center">
+                                <div class="indicator-container">
+                                    <div class="indicator-bar-experience active" data-index="0"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card h-100 bg-secondary-dark text-white functions-card-experience" data-index="1">
+                        <div class="card-body text-center p-5">
+                            <!-- Small Circular Photo -->
+                            <div class="photo-frame mb-4">
+                                <img src="JH.png" alt="Photo" class="photo">
+                            </div>
+                            <h3 class="card-title text-primary-custom">Teaching Factory (TEFA)</h3>
+                            <p class="card-text mb-2">With Jagoan Hosting in 2024</p>
+                            <p class="card-text">Focused on optimizing website performance using WordPress, producing analysis reports, and presenting results to industry professionals.</p>
+                            <div class="mb-4">
+                                <a href="CV _Gusthi Pangestu.docx" class="btn btn-outline-primary-custom btn-lg btn-animated">See More</a>
+                            </div>
+                            <div class="d-flex justify-content-center">
+                                <div class="indicator-container">
+                                    <div class="indicator-bar-experience" data-index="1"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card h-100 bg-secondary-dark text-white functions-card-experience" data-index="2">
+                        <div class="card-body text-center p-5">
+                            <!-- Small Circular Photo -->
+                            <div class="photo-frame mb-4">
+                                <img src="TDU23.png" alt="Photo" class="photo">
+                            </div>
+                            <h3 class="card-title text-primary-custom">Training and Certification </h3>
+                            <p class="card-text mb-2">With Telkom DigiUp in 2023</p>
+                            <p class="card-text">Focuses on developing design content and presenting interesting and informative design projects to the audience.</p>
+                            <div class="mb-4">
+                                <a href="CV _Gusthi Pangestu.docx" class="btn btn-outline-primary-custom btn-lg btn-animated">See More</a>
+                            </div>
+                            <div class="d-flex justify-content-center">
+                                <div class="indicator-container">
+                                    <div class="indicator-bar-experience" data-index="2"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <style>
+       .indicator-container {
+            display: flex;
+            gap: 15px;
+            border-radius: 10%;
+            padding: 10px;
+        }
+
+        .indicator-bar-experience {
+            width: 110px;
+            height: 8px;
+            background-color: #333;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease, border-radius 0.3s ease;
+            border-radius: 4px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .indicator-bar-experience::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 200%;
+            height: 200%;
+            border-radius: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background-color: rgba(0, 255, 255, 0.5);
+            transition: transform 0.3s ease;
+        }
+
+        .indicator-bar-experience:hover::before,
+        .indicator-bar-experience.active::before {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .indicator-bar-experience.active {
+            background-color: #00ffff;
+            transform: scale(1.1);
+            box-shadow: 0 4px 8px rgba(0, 255, 255, 0.6), 0 0 15px rgba(0, 255, 255, 0.6);
+            border-radius: 8px;
+        }
+
+        .indicator-bar-experience:hover {
+            background-color: #00ffff;
+            opacity: 0.9;
+            box-shadow: 0 4px 8px rgba(0, 255, 255, 0.4), 0 0 10px rgba(0, 255, 255, 0.4);
+        }
+
+        .indicator-bar-experience::after {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            background: rgba(0, 255, 255, 0.5);
+            border-radius: 50%;
+            animation: pulse 1.5s infinite ease-in-out;
+            opacity: 0;
+        }
+
+        .indicator-bar-experience.active::after {
+            opacity: 1;
+        }
+
+        .functions-card-experience {
+            transition: all 0.3s;
+            border: 2px solid transparent;
+            border-radius: 8px;
+            overflow: hidden;
+            background: var(--secondary-bg);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            color: #fff;
+        }
+
+        .functions-card-experience:hover {
+            border-color: var(--yellow-bg);
+            transform: translateY(-10px);
+            box-shadow: 0 8px 16px rgba(255, 238, 0, 0.6), 0 0 15px rgba(255, 234, 0, 0.6);
+        }
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Existing ScrollReveal initialization
+            const sr = ScrollReveal({ 
+                reset: true,
+                duration: 1000,
+                scale: 1,
+                distance: '50px',
+                easing: 'ease-in-out',
+                interval: 200
+            });
+        
+            sr.reveal('.functions-card-experience', {
+                origin: 'bottom',
+                rotate: { x: 10, y: 80, z: 10 }
+            });
+        
+            sr.reveal('.functions-card-experience:nth-child(odd)', {
+                origin: 'left',
+                rotate: { x: 10, y: 80, z: 10 }
+            });
+        
+            sr.reveal('.functions-card-experience:nth-child(even)', {
+                origin: 'right',
+                rotate: { x: 10, y: 80, z: 10 }
+            });
+        
+            // Custom Bar Indicator functionality
+            const bars = document.querySelectorAll('.indicator-bar-experience');
+            const cards = document.querySelectorAll('.functions-card-experience');
+            
+            bars.forEach(bar => {
+                bar.addEventListener('click', function() {
+                    // Remove active class from all bars
+                    bars.forEach(b => b.classList.remove('active'));
+                    
+                    // Add active class to clicked bar
+                    this.classList.add('active');
+                    
+                    // Scroll to corresponding card
+                    const index = this.getAttribute('data-index');
+                    cards[index].scrollIntoView({ 
+                        behavior: 'smooth',
+                        block: 'center'
+                    });
+                });
+            });
+        
+            // Add event listeners to cards
+            cards.forEach(card => {
+                card.addEventListener('click', function() {
+                    // Remove active class from all bars
+                    bars.forEach(b => b.classList.remove('active'));
+        
+                    // Add active class to corresponding bar
+                    const index = this.getAttribute('data-index');
+                    bars[index].classList.add('active');
+                    
+                    // Add animation class to the card
+                    this.classList.add('clicked');
+                    // Remove the animation class after animation ends
+                    setTimeout(() => this.classList.remove('clicked'), 500);
+                });
+            });
+        
+            // Set initial active bar
+            bars[0].classList.add('active');
+        
+            console.log('ScrollReveal is initialized');
+        });
+    </script>
+
+<!-- Certificates Section -->
+<section id="certificates" class="bg-secondary-dark section-padding">
+    <div class="container">
+        <h2 class="text-center display-4 mb-5">My <span class="text-primary-custom">Certificates</span></h2>
+        
+        <div class="row g-4 justify-content-center">
+            <div class="col-md-6 col-lg-4">
+                <div class="certificate-card sr-fade">
+                    <div class="certificate-image">
+                        <img src="80.png" alt="Web Development Certification">
+                    </div>
+                    <div class="certificate-body">
+                        <h4 class="certificate-title">Entrepreneur Training</h4>
+                        <p class="certificate-text">Completed a comprehensive course in web development, mastering HTML, CSS, JavaScript, and back-end technologies.</p>
+                        <div class="mb-4">
+                            <a href="CV _Gusthi Pangestu.docx" class="btn btn-outline-primary-custom btn-lg btn-animated">View Certificate</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="certificate-card">
+                    <div class="certificate-image">
+                        <img src="81.png" alt="Data Science Certification">
+                    </div>
+                    <div class="certificate-body">
+                        <h4 class="certificate-title">Seminar Personal Branding</h4>
+                        <p class="certificate-text">Demonstrated proficiency in data analysis, machine learning, and statistical modeling using Python and R.</p>
+                        <div class="mb-4">
+                            <a href="CV _Gusthi Pangestu.docx" class="btn btn-outline-primary-custom btn-lg btn-animated">View Certificate</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="certificate-card">
+                    <div class="certificate-image">
+                        <img src="80 (1).png" alt="Project Management Certification">
+                    </div>
+                    <div class="certificate-body">
+                        <h4 class="certificate-title">Financial Plan Training</h4>
+                        <p class="certificate-text">Completed training in project management principles, methodologies, and tools, including Agile and Scrum.</p>
+                        <div class="mb-4">
+                            <a href="CV _Gusthi Pangestu.docx" class="btn btn-outline-primary-custom btn-lg btn-animated">View Certificate</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="certificate-card">
+                    <div class="certificate-image">
+                        <img src="66.png" alt="Project Management Certification">
+                    </div>
+                    <div class="certificate-body">
+                        <h4 class="certificate-title">Seminar Content Creator</h4>
+                        <p class="certificate-text">Completed training in project management principles, methodologies, and tools, including Agile and Scrum.</p>
+                        <div class="mb-4">
+                            <a href="CV _Gusthi Pangestu.docx" class="btn btn-outline-primary-custom btn-lg btn-animated">View Certificate</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="certificate-card">
+                    <div class="certificate-image">
+                        <img src="80_20250104_094824_0079.png" alt="Project Management Certification">
+                    </div>
+                    <div class="certificate-body">
+                        <h4 class="certificate-title">Public Speaking Training</h4>
+                        <p class="certificate-text">Completed training in project management principles, methodologies, and tools, including Agile and Scrum.</p>
+                        <div class="mb-4">
+                            <a href="CV _Gusthi Pangestu.docx" class="btn btn-outline-primary-custom btn-lg btn-animated">View Certificate</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="certificate-card">
+                    <div class="certificate-image">
+                        <img src="237990_attendance_page-0001_11zon.jpg" alt="Project Management Certification">
+                    </div>
+                    <div class="certificate-body">
+                        <h4 class="certificate-title">Digital Graphic Design Training</h4>
+                        <p class="certificate-text">Completed training in project management principles, methodologies, and tools, including Agile and Scrum.</p>
+                        <div class="mb-4">
+                            <a href="CV _Gusthi Pangestu.docx" class="btn btn-outline-primary-custom btn-lg btn-animated">View Certificate</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="certificate-card">
+                    <div class="certificate-image">
+                        <img src="Artboard 1@2x.png" alt="Project Management Certification">
+                    </div>
+                    <div class="certificate-body">
+                        <h4 class="certificate-title">UI/UX Design Training</h4>
+                        <p class="certificate-text">Completed training in project management principles, methodologies, and tools, including Agile and Scrum.</p>
+                        <div class="mb-4">
+                            <a href="CV _Gusthi Pangestu.docx" class="btn btn-outline-primary-custom btn-lg btn-animated">View Certificate</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="certificate-card">
+                    <div class="certificate-image">
+                        <img src="Certificate.jpg" alt="Project Management Certification">
+                    </div>
+                    <div class="certificate-body">
+                        <h4 class="certificate-title">Fiber Optic Installation Certification</h4>
+                        <p class="certificate-text">Completed training in project management principles, methodologies, and tools, including Agile and Scrum.</p>
+                        <div class="mb-4">
+                            <a href="CV _Gusthi Pangestu.docx" class="btn btn-outline-primary-custom btn-lg btn-animated">View Certificate</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="certificate-card">
+                    <div class="certificate-image">
+                        <img src="2772346247GP_page-0001.jpg" alt="Project Management Certification">
+                    </div>
+                    <div class="certificate-body">
+                        <h4 class="certificate-title">Leadership and Teams Certification</h4>
+                        <p class="certificate-text">Completed training in project management principles, methodologies, and tools, including Agile and Scrum.</p>
+                        <div class="mb-4">
+                            <a href="CV _Gusthi Pangestu.docx" class="btn btn-outline-primary-custom btn-lg btn-animated">View Certificate</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="certificate-card">
+                    <div class="certificate-image">
+                        <img src="BNSP.jpg" alt="Project Management Certification">
+                    </div>
+                    <div class="certificate-body">
+                        <h4 class="certificate-title">Graphic Design Certification</h4>
+                        <p class="certificate-text">Completed training in project management principles, methodologies, and tools, including Agile and Scrum.</p>
+                        <div class="mb-4">
+                            <a href="CV _Gusthi Pangestu.docx" class="btn btn-outline-primary-custom btn-lg btn-animated">View Certificate</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="certificate-card">
+                    <div class="certificate-image">
+                        <img src="doc_page-0001.jpg" alt="Project Management Certification">
+                    </div>
+                    <div class="certificate-body">
+                        <h4 class="certificate-title">MTCNA Certification</h4>
+                        <p class="certificate-text">Completed training in project management principles, methodologies, and tools, including Agile and Scrum.</p>
+                        <div class="mb-4">
+                            <a href="CV _Gusthi Pangestu.docx" class="btn btn-outline-primary-custom btn-lg btn-animated">View Certificate</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+
+    .certificate-card {
+        transition: all 0.3s;
+        border: 2px solid transparent;
+        border-radius: 8px;
+        overflow: hidden;
+        background: var(--secondary-bg);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+        color: #fff;
+    }
+
+    .certificate-card:hover {
+        border-color: var(--yellow-bg);
+        transform: translateY(-10px);
+        box-shadow: 0 8px 16px rgba(255, 238, 0, 0.6), 0 0 15px rgba(255, 234, 0, 0.6);
+    }
+
+    .certificate-image {
+        position: relative;
+        width: 100%;
+        padding-top: 75%; /* This keeps the aspect ratio */
+    }
+    .certificate-image img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+    .certificate-card:hover .certificate-image img {
+        transform: scale(1.1);
+    }
+    .certificate-body {
+        padding: 20px;
+    }
+    .certificate-title {
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+    }
+    .certificate-text {
+        font-size: 1rem;
+        margin-bottom: 20px;
+    }
+    .btn-primary-custom {
+        color: white;
+        background-color: var(--primary-color);
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+    }
+    .btn-primary-custom:hover {
+        background-color: darken(var(--primary-color), 10%);
+    }
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const sr = ScrollReveal({ 
+            reset: true,
+            duration: 1000,
+            scale: 1,
+            distance: '50px',
+            easing: 'ease-in-out',
+            interval: 200
+        });
+
+        sr.reveal('.certificate-card', {
+            origin: 'bottom',
+            rotate: { x: 80, y: 50, z: 50 }
+        });
+    });
+</script>
+
+
+
+
+
+    <!-- Contact Section -->
+    <section id="contact" class="section-padding">
+        <div class="container">
+            <h2 class="text-center display-4 mb-3">Contact <span class="text-primary-custom">Us</span></h2>
+            <h3 class="text-center mb-2">Feel free to reach out</h3>
+            <h4 class="lead text-center mb-4">If you need my skill</h4>
+            
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <form>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" placeholder="Your Name" required>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="email" class="form-control" placeholder="Your Email" required>
+                            </div>
+                            <div class="col-12">
+                                <textarea class="form-control" rows="5" placeholder="Your Message" required></textarea>
+                            </div>
+                            <div class="col-12 text-center">
+                                <button type="submit" class="btn btn-primary-custom btn-lg px-4">Send Message</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Thanks Section -->
+    <section id="Thanks" class="bg-secondary-dark section-padding">
+        <div class="container">
+            <h2 class="text-center display-4 mb-3">Thanks <span class="text-primary-custom">to Visit </span>My Profile</h2>
+            <h3 class="text-center mb-3">"Always Your Number One Till Infinity and Beyond."</h3>
+            <h4 class="lead text-center mb-4">- Michelle Alexandra -</h4>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-secondary-dark text-white py-4">
+        <div class="container text-center">
+            <p>Copyright &copy; 2024 by Gusthi Pangestu | All Rights Reserved.</p>
+            <p>Designed by <a href="#" class="text-primary-custom">Gusthi Pangestu</a></p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS and JavaScript Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+    <script src="https://unpkg.com/scrollreveal"></script>
+    
+    <script>
+        // Typed.js effect for dynamic text in Home Section
+        var typed = new Typed("#typed-text", {
+            strings: ["Programming", "Graphic Design", "SEO Website"],
+            typeSpeed: 100,
+            backSpeed: 50,
+            loop: true,
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const style = document.createElement('style');
+            style.innerHTML = `
+                /* Navbar Styles */
+                .navbar-nav .nav-link {
+                    position: relative;
+                    overflow: hidden;
+                    color: #f4f4f4;
+                    transition: color 0.3s ease-in-out, transform 0.3s ease-in-out;
+                }
+
+                .navbar-nav .nav-link:hover {
+                    color: #ffd700; /* Yellow background */
+                    transform: scale(1.1);
+                }
+
+                /* Animasi underline saat hover */
+                .navbar-nav .nav-link::after {
+                    content: '';
+                    position: absolute;
+                    left: 0;
+                    bottom: 0;
+                    width: 0;
+                    height: 2px;
+                    background-color: #ffd700;
+                    transition: width 0.3s ease-in-out;
+                }
+
+                .navbar-nav .nav-link:hover::after {
+                    width: 100%;
+                }
+
+                /* Dropdown Animation */
+                .dropdown-menu {
+                    opacity: 0;
+                    transform: translateY(10px);
+                    transition: opacity 0.3s ease, transform 0.3s ease;
+                }
+
+                .dropdown-menu.show {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+
+                /* Mode toggle button */
+                #modeToggle {
+                    cursor: pointer;
+                    transition: color 0.3s ease-in-out;
+                }
+
+                #modeToggle:hover {
+                    color: #0ef; /* Primary color */
+                }
+
+                /* Navbar brand animation */
+                .navbar-brand span {
+                    color: #ffd700;
+                    font-weight: bold;
+                    transition: color 0.3s ease-in-out;
+                }
+
+                .navbar-brand:hover span {
+                    color: #0ef; /* Primary color */
+                }
+
+                /* Shadow effect on navbar when scrolling */
+                .navbar {
+                    transition: box-shadow 0.3s ease;
+                }
+
+                .navbar.scrolled {
+                    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+                }
+            `;
+            document.head.appendChild(style);
+
+            const navbar = document.querySelector('.navbar');
+
+            // Tambahkan shadow saat scroll
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            });
+
+            // Mode toggle animasi
+            const modeToggle = document.getElementById('modeToggle');
+            modeToggle.addEventListener('click', () => {
+                document.body.classList.toggle('dark-mode');
+                const icon = modeToggle.querySelector('i');
+                if (document.body.classList.contains('dark-mode')) {
+                    icon.classList.replace('bi-moon-fill', 'bi-sun-fill');
+                } else {
+                    icon.classList.replace('bi-sun-fill', 'bi-moon-fill');
+                }
+            });
+        });
+
+        document.querySelectorAll('.btn-animated').forEach(btn => {
+            // Gaya default
+            btn.style.position = 'relative';
+            btn.style.overflow = 'hidden';
+            btn.style.zIndex = '1';
+            btn.style.background = 'var(--secondary-color)';
+            btn.style.color = 'var(--light-bg)';
+            btn.style.border = `2px solid var(--yellow-bg)`;
+            btn.style.borderRadius = '8px';
+            btn.style.padding = '12px 24px';
+            btn.style.transition = 'all 0.3s ease';
+            btn.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
+            btn.style.cursor = 'pointer';
+
+            // Efek hover
+            btn.addEventListener('mouseover', () => {
+                btn.style.background = 'var(--yellow-bg)';
+                btn.style.color = 'var(--dark-bg)';
+                btn.style.boxShadow = '0 6px 12px rgba(0, 0, 0, 0.2)';
+            });
+
+            btn.addEventListener('mouseout', () => {
+                btn.style.background = 'var(--dark-color)';
+                btn.style.color = 'var(--light-bg)';
+                btn.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
+            });
+
+            // Ripple effect saat klik
+            btn.addEventListener('click', (e) => {
+                const ripple = document.createElement('span');
+                ripple.style.position = 'absolute';
+                ripple.style.background = 'var(--light-secondary-bg)';
+                ripple.style.borderRadius = '50%';
+                ripple.style.transform = 'scale(0)';
+                ripple.style.animation = 'ripple-animation 0.6s ease-out';
+                ripple.style.pointerEvents = 'none';
+
+                // Menentukan posisi ripple
+                const rect = btn.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                ripple.style.width = ripple.style.height = `${size}px`;
+                ripple.style.left = `${e.clientX - rect.left - size / 2}px`;
+                ripple.style.top = `${e.clientY - rect.top - size / 2}px`;
+
+                btn.appendChild(ripple);
+
+                // Menghapus ripple setelah animasi selesai
+                ripple.addEventListener('animationend', () => {
+                    ripple.remove();
+                });
+            });
+        });
+
+        // Menambahkan CSS animasi ripple ke halaman
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple-animation {
+                0% {
+                    transform: scale(0);
+                    opacity: 1;
+                }
+                100% {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const style = document.createElement('style');
+            style.innerHTML = `
+
+                /* Responsif untuk Perangkat Kecil */
+                @media screen and (max-width: 768px) {
+                    .btn {
+                        padding: 8px 15px;
+                        font-size: 14px;
+                    }
+
+                    .btn-hire {
+                        font-size: 14px;
+                        padding: 8px 12px;
+                    }
+
+                    .btn-download {
+                        font-size: 14px;
+                        padding: 8px 12px;
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+
+            // Tambahkan class untuk tombol jika belum ada
+            const btnHire = document.querySelector('.btn-hire');
+            const btnDownload = document.querySelector('.btn-download');
+
+            if (btnHire) {
+                btnHire.classList.add('btn');
+            }
+
+            if (btnDownload) {
+                btnDownload.classList.add('btn');
+            }
+        });
+
+        const revealOptions = {
+            reset: true, // Resets animations when the user scrolls back to the section
+            duration: 1000,
+            delay: 200
+        };
+
+        ScrollReveal().reveal('.sr-left', {
+            ...revealOptions,
+            origin: 'left',
+            distance: '50px'
+        });
+
+        ScrollReveal().reveal('.sr-top', {
+            ...revealOptions,
+            origin: 'top',
+            distance: '50px'
+        });
+
+        ScrollReveal().reveal('.sr-zoom', {
+            ...revealOptions,
+            scale: 0.85
+        });
+
+        ScrollReveal().reveal('.sr-fade', {
+            ...revealOptions,
+            opacity: 0
+        });
+
+        // Hover animation for images
+        document.querySelectorAll('.image-wrapper img').forEach(img => {
+            img.addEventListener('mouseover', () => {
+                img.style.transform = 'scale(1.05)';
+            });
+            img.addEventListener('mouseout', () => {
+                img.style.transform = 'scale(1)';
+            });
+        });
+
+        // Add hover effect for buttons
+        document.querySelectorAll('.btn-animated').forEach(btn => {
+            btn.addEventListener('mouseover', () => {
+                btn.style.transform = 'scale(1.1)';
+                btn.style.transition = 'transform 0.3s ease';
+            });
+            btn.addEventListener('mouseout', () => {
+                btn.style.transform = 'scale(1)';
+            });
+        });
+
+        // Dark Mode Toggle
+        const modeToggle = document.getElementById('modeToggle');
+        const body = document.body;
+
+        // Check for saved mode preference
+        const savedMode = localStorage.getItem('mode');
+        if (savedMode) {
+            body.classList.add(savedMode);
+        }
+
+        modeToggle.addEventListener('click', () => {
+            body.classList.toggle('light-mode');
+            
+            // Update icon based on mode
+            const icon = modeToggle.querySelector('i');
+            if (body.classList.contains('light-mode')) {
+                icon.classList.remove('bi-moon-fill');
+                icon.classList.add('bi-sun-fill');
+                localStorage.setItem('mode', 'light-mode');
+            } else {
+                icon.classList.remove('bi-sun-fill');
+                icon.classList.add('bi-moon-fill');
+                localStorage.removeItem('mode');
+            }
+        });
+
+        document.getElementById('playButton').addEventListener('click', function() {
+            var audio = document.getElementById('audioPlayer');
+            audio.play().catch(function(error) {
+                console.error('Error playing audio:', error);
+            });
+        });
+    </script>
+</body>
+</html>
