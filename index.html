@@ -1749,23 +1749,26 @@
         const savedMode = localStorage.getItem('mode');
         if (savedMode) {
             body.classList.add(savedMode);
+            updateModeIcon(savedMode);
         }
 
         modeToggle.addEventListener('click', () => {
             body.classList.toggle('light-mode');
-            
-            // Update icon based on mode
-            const icon = modeToggle.querySelector('i');
-            if (body.classList.contains('light-mode')) {
-                icon.classList.remove('bi-moon-fill');
-                icon.classList.add('bi-sun-fill');
-                localStorage.setItem('mode', 'light-mode');
-            } else {
-                icon.classList.remove('bi-sun-fill');
-                icon.classList.add('bi-moon-fill');
-                localStorage.removeItem('mode');
-            }
+            const currentMode = body.classList.contains('light-mode') ? 'light-mode' : 'dark-mode';
+            localStorage.setItem('mode', currentMode);
+            updateModeIcon(currentMode);
         });
+
+        function updateModeIcon(mode) {
+            const icon = modeToggle.querySelector('i');
+            if (mode === 'light-mode') {
+            icon.classList.remove('bi-moon-fill');
+            icon.classList.add('bi-sun-fill');
+            } else {
+            icon.classList.remove('bi-sun-fill');
+            icon.classList.add('bi-moon-fill');
+            }
+        }
 
         document.getElementById('playButton').addEventListener('click', function() {
             var audio = document.getElementById('audioPlayer');
