@@ -1761,13 +1761,7 @@
 
         function updateModeIcon(mode) {
             const icon = modeToggle.querySelector('i');
-            if (mode === 'light-mode') {
-            icon.classList.remove('bi-moon-fill');
-            icon.classList.add('bi-sun-fill');
-            } else {
-            icon.classList.remove('bi-sun-fill');
-            icon.classList.add('bi-moon-fill');
-            }
+            icon.className = mode === 'light-mode' ? 'bi bi-sun-fill me-2' : 'bi bi-moon-fill me-2';
         }
 
         document.getElementById('playButton').addEventListener('click', function() {
